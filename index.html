@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendly - Attendance Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark">AT</span>
+        <span><strong>Attendly</strong><small>STUDENT TRACKER</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav">
+        <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
+        <a class="nav-link" href="#attendance">✓ Mark attendance</a>
+        <a class="nav-link" href="#students">♙ Students</a>
+        <a class="nav-link" href="#reports">▤ Reports</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="local-note">
+          <span class="dot"></span>
+          <span><strong>Private workspace</strong><small>Saved in this browser</small></span>
+        </div>
+        <p>Attendance Tracker · v1.0</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="todayLabel">YOUR CLASSROOM</p>
+          <h1>Attendance dashboard</h1>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" id="themeToggle" aria-label="Toggle theme">☼</button>
+          <div class="admin-chip">
+            <span class="avatar">A</span>
+            <span><strong>Administrator</strong><small>Personal workspace</small></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="welcome-row" id="dashboard">
+        <div>
+          <h2>Good to see you.</h2>
+          <p>Here's your class attendance at a glance.</p>
+        </div>
+        <a class="primary-button" href="#attendance">＋ Mark attendance</a>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-top"><span>Total students</span><span class="stat-icon blue">♙</span></div>
+          <strong id="totalStudents">10</strong><small>In your class</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Present today</span><span class="stat-icon green">✓</span></div>
+          <strong id="presentCount">—</strong><small id="presentHint">Not marked yet</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Absent today</span><span class="stat-icon red">–</span></div>
+          <strong id="absentCount">—</strong><small id="absentHint">Not marked yet</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span>Attendance rate</span><span class="stat-icon purple">％</span></div>
+          <strong id="attendanceRate">—</strong><small>For selected date</small>
+        </article>
+      </section>
+
+      <section class="panel attendance-panel" id="attendance">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">DAILY REGISTER</p>
+            <h2>Mark attendance</h2>
+            <p class="muted">Choose a date, then mark each student's status.</p>
+          </div>
+          <label class="date-field">Attendance date
+            <input type="date" id="attendanceDate">
+          </label>
+        </div>
+        <div class="attendance-toolbar">
+          <span id="markedSummary">No attendance saved for this date</span>
+          <div class="toolbar-actions">
+            <button class="secondary-button" id="markAllPresent">Mark all present</button>
+            <button class="secondary-button" id="clearMarks">Clear</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ROLL NO.</th><th>STUDENT NAME</th><th>STATUS</th></tr></thead>
+            <tbody id="attendanceRows"></tbody>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <span class="muted">Save attendance after marking all students.</span>
+          <button class="primary-button" id="saveAttendance">Save attendance</button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <section class="panel" id="students">
+          <div class="panel-heading compact">
+            <div><p class="eyebrow">YOUR CLASS</p><h2>Students</h2></div>
+            <span class="count-pill">10 students</span>
+          </div>
+          <p class="muted section-intro">Edit your student names below.</p>
+          <div id="studentEditor" class="student-editor"></div>
+          <button class="secondary-button full-button" id="saveStudents">Save student names</button>
+        </section>
+
+        <section class="panel" id="reports">
+          <div class="panel-heading compact">
+            <div><p class="eyebrow">OVERVIEW</p><h2>Attendance report</h2></div>
+          </div>
+          <p class="muted section-intro">Monthly attendance reports.</p>
+          <label class="date-field month-field">Report month
+            <input type="month" id="reportMonth">
+          </label>
+          <div class="report-summary">
+            <div><small>Marked sessions</small><strong id="sessionCount">0</strong></div>
+            <div><small>Class average</small><strong id="classAverage">—</strong></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>STUDENT</th><th>PRESENT</th><th>RATE</th></tr></thead>
+              <tbody id="reportRows"></tbody>
+            </table>
+          </div>
+          <button class="secondary-button full-button" id="exportCsv">↓ Export report as CSV</button>
+        </section>
+      </section>
+      <footer class="footer">Attendly · Attendance management system <span>Data stays in this browser</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
