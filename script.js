@@ -6,6 +6,20 @@ const $ = id => document.getElementById(id);
 
 const today = new Date();
 
+// Your 10 students
+const STUDENT_NAMES = [
+  "Varman",
+  "Sivaraman",
+  "Thandayudhapani",
+  "Elamparuthi",
+  "Rajagopal",
+  "Lingesh",
+  "Haaris",
+  "Meeran",
+  "Naofil",
+  "Shahid"
+];
+
 function localDate(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -14,9 +28,9 @@ function localDate(date) {
 }
 
 const defaultData = {
-  students: Array.from({ length: 10 }, (_, i) => ({
+  students: STUDENT_NAMES.map((name, i) => ({
     id: i + 1,
-    name: `Student ${String(i + 1).padStart(2, "0")}`
+    name
   })),
   attendance: {}
 };
@@ -24,15 +38,26 @@ const defaultData = {
 function loadData() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
     if (
       saved &&
       Array.isArray(saved.students) &&
-      saved.students.length === 10 &&
-      saved.attendance
-    ) return saved;
+      saved.attendance &&
+      typeof saved.attendance === "object"
+    ) {
+      // Update names from code while preserving attendance history
+      return {
+        students: STUDENT_NAMES.map((name, i) => ({
+          id: i + 1,
+          name
+        })),
+        attendance: saved.attendance
+      };
+    }
   } catch (error) {
     console.warn("Could not read saved data.", error);
   }
+
   return structuredClone(defaultData);
 }
 
@@ -70,11 +95,11 @@ function recordsFor(date) {
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   }[c]));
 }
 
@@ -198,6 +223,7 @@ function renderReport() {
 
 // Initial setup
 $("attendanceDate").value = localDate(today);
+
 $("reportMonth").value =
   `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
 
@@ -333,3 +359,4 @@ setTheme(localStorage.getItem(THEME_KEY) || "dark");
 renderAttendance();
 renderStudents();
 renderReport();
+
